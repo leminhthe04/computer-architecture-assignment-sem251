@@ -40,11 +40,11 @@ main:
 	write_float_from_int_reg($s2)
 	write_string(newl)
 	
-	# move the floats to a1 and a2 registers as the arguments of sum function
+	# move the floats to $a1 and $a2 registers as the arguments of `sum` function
 	move $a1, $s1
 	move $a2, $s2
 	jal sum
-	move $s3, $v0 # get the return value of sum function (stored in $v0) 
+	move $s3, $v0 # get the return value of `sum` function (stored in $v0) 
 
 	write_string(sum_str)
 	write_float_from_int_reg($s3)
@@ -72,7 +72,7 @@ sum:
 	sw $t5, 32($sp)
 	sw $t6, 36($sp)
 
-	## split a float into 3 part: sign, exponent and mantissa ##
+	## split a float into 3 parts: sign, exponent and mantissa ##
 
 	# make the 1st float is the argument of `split` function 
 	move $a0, $a1
@@ -82,7 +82,7 @@ sum:
 	move $t2, $v1
 	move $t3, $t0
 	
-	# make the 1st float is the argument of `split` function
+	# make the 2nd float is the argument of `split` function
 	move $a0, $a2
 	jal split
 	# save return values 
@@ -170,7 +170,7 @@ sum:
 	move $t5, $a2 # exp2
 	move $t6, $a3 # mant2
 
-	## 2. determine the sign of sum, add two mantissa parts and adjust exponet if needed ##
+	## 2. determine the sign of sum, add two mantissa parts and adjust exponent if needed ##
 
 	# make arguments of `add_mantissas` function
 	move $a0, $t1 # sign1
@@ -184,7 +184,7 @@ sum:
 	## 3. concatenate 3 parts to get the final sum ##
 
 	# get return values of `add_mantissa_parts` and pass to `concatenate`
-      # return regs of `add_mantissa_parts` and arguments regs of `concatenate` are same
+      # return regs of `add_mantissa_parts` and arguments regs of `concatenate` are the same
 	jal concatenate
 
 	# $v0 is the return reg of both `concatenate` and this function 
